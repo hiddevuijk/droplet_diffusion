@@ -70,9 +70,9 @@ int main()
 
   unsigned int ti = 0;
   droplet_diffusion.SaveDroplets(
-      "drops_" + to_string(ti) + ".dat");
+      "data/drops_" + to_string(ti) + ".dat");
   droplet_diffusion.SaveConcentration(
-      "c_" + to_string(ti) + ".dat");
+      "data/c_" + to_string(ti) + ".dat");
 
   while (droplet_diffusion.GetTime() < integration_time) {
     // integrate time
@@ -81,9 +81,9 @@ int main()
 
     // save data
     droplet_diffusion.SaveDroplets(
-        "drops_" + to_string(ti) + ".dat");
+        "data/drops_" + to_string(ti) + ".dat");
     droplet_diffusion.SaveConcentration(
-        "c_" + to_string(ti) + ".dat");
+        "data/c_" + to_string(ti) + ".dat");
 
   }
 
@@ -93,8 +93,8 @@ int main()
        << droplet_diffusion.GetNumberOfDroplets()  << endl;
 
   // save final droplets and concentration
-  droplet_diffusion.SaveDroplets("drops.dat");
-  droplet_diffusion.SaveConcentration("c.dat");
+  droplet_diffusion.SaveDroplets("data/drops.dat");
+  droplet_diffusion.SaveConcentration("data/c.dat");
 
 
   return 0;
