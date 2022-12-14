@@ -20,5 +20,5 @@ clean:
 
 .PHONY: cleandata
 cleandata:
-	rm -f *.dat
+	rm -f *.dat data/*
   
