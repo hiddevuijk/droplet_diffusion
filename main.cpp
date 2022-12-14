@@ -15,7 +15,7 @@ using namespace std;
 struct FunctorC0Out {
   FunctorC0Out(double c0_out) : c0_out(c0_out) {}
   double operator() (double x, double y, double t) {
-    return c0_out + (0.5 - tanh(0.1)); 
+    return 0.5 - tanh(x - 25) / 100; 
   }
 
   double c0_out;
@@ -75,6 +75,7 @@ int main()
       "data/c_" + to_string(ti) + ".dat");
 
   while (droplet_diffusion.GetTime() < integration_time) {
+    //cout << ti << endl;
     // integrate time
     droplet_diffusion.TimeEvolve(save_every);
     ti++;

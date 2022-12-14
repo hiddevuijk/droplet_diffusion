@@ -1,18 +1,40 @@
+# diffusion constant of the concentration
 D = 50.0
+#diffusion constant of a droplet with unit radius
 Dd1 = 0.05
 
+# capilary lenth
+l_gamma = 1e-3
 
-l_gamma = 1.0
-c0_in = 6.0
+# equilibrium concentration inside the droplets
+c0_in = 10.0
+# initial uniform concentration outside the droplets
 c_out = 0.5
-c0_out = 0.2
-Rco = 0.3
-number_of_droplets = 20
+# equilibrium concentration outside the droplets
+c0_out = 0.499
+
+# cut off radius for the droplets
+#(if radius is smaller, the droplet dissolves)
+Rco = 0.1
+
+# initial number of droplets
+number_of_droplets = 40
+
+#dimensions of the box
 Lx = 50
 Ly = 25
+
+#number of grid points for the concentration
 Nx = 100
 Ny = 50
-dt = 2.5e-4
-seed = 12345782
-integration_time = 100.0
+
+#integration time step
+dt = 1e-4
+
+# total integration time
+integration_time = 400.0
+# every "save_every" time units, the state of the system is writen
 save_every = 1.0
+
+#seed for the random number generator
+seed = 12345782

@@ -86,10 +86,12 @@ struct Droplet {
  the x,y coordinates and the time,
  and returns the c0_out concentration at that place and time.
  For example,
-  Func F {
+  Funct F {
+
     double operator() (double x, double y, double t) {
       return {double};
     }
+
   };
 
 */
@@ -237,7 +239,7 @@ DropletDiffusion<Funct>::DropletDiffusion(
 
     // initialize droplet radius
     // CHANGE TO DISTRIBUTION
-    droplets_[i].SetR(Rco_ + (6.0 - Rco_) * rudist());
+    droplets_[i].SetR(Rco_ + (2.0 - Rco_) * rudist());
     droplets_[i].SetRco(Rco_);
   }
 }
@@ -257,15 +259,22 @@ void DropletDiffusion<Funct>::MakeTimeStep(double dt)
     double &y = droplets_[i].y;
 
     // move droplet
-    x += sqrt(2 * dt * Dd1_ / R ) * random_normal_distribution_();
-    y += sqrt(2 * dt * Dd1_ / R ) * random_normal_distribution_();
+    x += sqrt(2 * dt * Dd1_ / R) * random_normal_distribution_();
+    y += sqrt(2 * dt * Dd1_ / R) * random_normal_distribution_();
 
     // reflecting b.c. for the droplet center.
     // reflect droplet back in the box
-    if (x > Lx_) x = 2 * Lx_ - x;
-    if (x < 0) x = -x;
-    if (y > Ly_) y = 2 * Ly_ - y;
-    if (y < 0) y = -y;
+    if (x > Lx_) {
+      x = 2 * Lx_ - x;
+    } else if (x < 0) {
+      x = -x;
+    }
+
+    if (y > Ly_) {
+      y = 2 * Ly_ - y;
+    } else  if (y < 0) {
+      y = -y;
+    }
 
     // evolve droptlet radius
     alpha = D_ * c0_out_(x,y,t_) / c0_in_;
