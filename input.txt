@@ -1,0 +1,18 @@
+D = 50.0
+Dd1 = 0.05
+
+
+l_gamma = 1.0
+c0_in = 6.0
+c_out = 0.5
+c0_out = 0.2
+Rco = 0.3
+number_of_droplets = 20
+Lx = 50
+Ly = 25
+Nx = 100
+Ny = 50
+dt = 2.5e-4
+seed = 12345782
+integration_time = 100.0
+save_every = 1.0
