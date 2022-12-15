@@ -15,7 +15,7 @@ using namespace std;
 struct FunctorC0Out {
   FunctorC0Out(double c0_out) : c0_out(c0_out) {}
   double operator() (double x, double y, double t) {
-    return 0.5 - tanh(x - 25) / 100; 
+    return 0.5 - tanh(x - 25) / 10; 
   }
 
   double c0_out;

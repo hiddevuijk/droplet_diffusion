@@ -239,7 +239,7 @@ DropletDiffusion<Funct>::DropletDiffusion(
 
     // initialize droplet radius
     // CHANGE TO DISTRIBUTION
-    droplets_[i].SetR(Rco_ + (2.0 - Rco_) * rudist());
+    droplets_[i].SetR(Rco_ + (1.0 - Rco_) * rudist());
     droplets_[i].SetRco(Rco_);
   }
 }
