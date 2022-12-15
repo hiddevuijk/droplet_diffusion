@@ -1,3 +1,5 @@
+*.o
+*.exe
 *.swp
 *.dat
 data/*
