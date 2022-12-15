@@ -13,12 +13,14 @@ using namespace std;
 
 
 struct FunctorC0Out {
-  FunctorC0Out(double c0_out) : c0_out(c0_out) {}
+  FunctorC0Out(double a, double b, double c, double d, double x0)
+    : a(a), b(b), c(c), d(c), x0(x0) {}
+
   double operator() (double x, double y, double t) {
-    return 0.5 - tanh(x - 25) / 10; 
+    return a + b * x + c * tanh( (x - x0) / d) ; 
   }
 
-  double c0_out;
+  double a, b, c, d, x0;
 };
 
 int main()
@@ -34,7 +36,6 @@ int main()
   double l_gamma = params.get_parameter<double>("l_gamma");
   double c0_in = params.get_parameter<double>("c0_in");
   double c_out = params.get_parameter<double>("c_out");
-  double c0_out = params.get_parameter<double>("c0_out");
   double Rco = params.get_parameter<double>("Rco");
   unsigned int number_of_droplets =
       params.get_parameter<unsigned int>("number_of_droplets");
@@ -49,8 +50,18 @@ int main()
   double save_every =
       params.get_parameter<double>("save_every");
 
+
+  double c0_out_a = params.get_parameter<double>("a");
+  double c0_out_b = params.get_parameter<double>("b");
+  double c0_out_c = params.get_parameter<double>("c");
+  double c0_out_d = params.get_parameter<double>("d");
+  double c0_out_x0 = params.get_parameter<double>("x0");
+
+
+
   // functor for the equilibrium concentration outide of the drop
-  FunctorC0Out f_c0_out(c0_out);
+  FunctorC0Out f_c0_out(c0_out_a, c0_out_b, c0_out_c,
+                        c0_out_d, c0_out_x0);
 
 
   // simulation object
@@ -75,7 +86,6 @@ int main()
       "data/c_" + to_string(ti) + ".dat");
 
   while (droplet_diffusion.GetTime() < integration_time) {
-    //cout << ti << endl;
     // integrate time
     droplet_diffusion.TimeEvolve(save_every);
     ti++;
