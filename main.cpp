@@ -14,10 +14,10 @@ using namespace std;
 
 struct FunctorC0Out {
   FunctorC0Out(double a, double b, double c, double d, double x0)
-    : a(a), b(b), c(c), d(c), x0(x0) {}
+    : a(a), b(b), c(c), d(d), x0(x0) {}
 
   double operator() (double x, double y, double t) {
-    return a + b * x + c * tanh( (x - x0) / d) ; 
+    return a + b * x + c * tanh( (x - x0) / d ) ; 
   }
 
   double a, b, c, d, x0;
@@ -56,8 +56,6 @@ int main()
   double c0_out_c = params.get_parameter<double>("c");
   double c0_out_d = params.get_parameter<double>("d");
   double c0_out_x0 = params.get_parameter<double>("x0");
-
-
 
   // functor for the equilibrium concentration outide of the drop
   FunctorC0Out f_c0_out(c0_out_a, c0_out_b, c0_out_c,
