@@ -296,6 +296,7 @@ void DropletDiffusion<Funct>::MakeTimeStep(double dt)
     //to the center of the droplet
     concentration_.Source(droplets_[i].x, droplets_[i].y,
                  -1 * droplets_[i].AreaChange() * c0_in_);
+
     // if the droplet has dissolved, set radius to -1
     if (droplets_[i].GetR() < Rco_) droplets_[i].SetR(-1); 
   }
