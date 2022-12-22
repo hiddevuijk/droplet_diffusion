@@ -1,6 +1,11 @@
 #ifndef GUARD_DROPLET_DIFFUSION_H
 #define GUARD_DROPLET_DIFFUSION_H
 
+/*
+ *  Change number_of_droplets to mutable private variable
+ */
+
+
 #include "concentration.h"
 
 #include <iostream>
