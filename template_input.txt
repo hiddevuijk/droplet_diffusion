@@ -1,0 +1,41 @@
+D = 50.0
+Dd1 = 0.05
+
+
+l_gamma = 1e-3
+c0_in = 5.0
+c_out = 0.5
+
+# equilibrium concentration outside the droplets
+# c0_out = a + b * x + c * tanh( (x - x0) / d)
+a = 0.5
+b = 0.0
+c = 0.05
+d = 1.0
+x0 = 25
+
+# cut off radius for the droplets
+#(if radius is smaller, the droplet dissolves)
+Rco = 0.05
+
+# initial number of droplets
+number_of_droplets = 40
+
+#dimensions of the box
+Lx = 50
+Ly = 25
+
+#number of grid points for the concentration
+Nx = 50
+Ny = 25
+
+#integration time step
+dt = 1e-4
+
+# total integration time
+integration_time = 200.0
+# every "save_every" time units, the state of the system is writen
+save_every = 1.0
+
+#seed for the random number generator
+seed = 12345782
