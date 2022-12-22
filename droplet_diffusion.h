@@ -1,11 +1,6 @@
 #ifndef GUARD_DROPLET_DIFFUSION_H
 #define GUARD_DROPLET_DIFFUSION_H
 
-/*
- *  Change number_of_droplets to mutable private variable
- */
-
-
 #include "concentration.h"
 
 #include <iostream>
@@ -111,7 +106,6 @@ class DropletDiffusion {
     double c_out, // initial uniform concentration outside
     Funct c0_out, // Functor for the equilibrium outside concentration
     double Rco,   // cut of radius, drop dissolves if radius < Rco
-    unsigned int number_of_droplets,
     double Lx,    // x dimension of the box
     double Ly,    // same for y
     double dt,    // integration time step, 
@@ -119,6 +113,7 @@ class DropletDiffusion {
                   // time step min(dt, dt_von_neumann / 10),
                   // where dt_von_neumann is the time step
                   // corresponding to marginal stability
+    unsigned int number_of_droplets,
     unsigned int Nx, // number of grid points in the x dimension
                      // for the concentration
     unsigned int Ny,    // same for y
@@ -162,8 +157,6 @@ class DropletDiffusion {
   Funct c0_out_;
   // cutt-off radius. Droplet dissolves if R < Rco
   double Rco_;
-  // number of initial droplets
-  unsigned int number_of_droplets_;
   // box dimensions
   double Lx_, Ly_;
   // integration time step
@@ -173,6 +166,9 @@ class DropletDiffusion {
   /// Mutable members variables
   ////////////////////
  
+  // number of initial droplets
+  unsigned int number_of_droplets_;
+
   // current time 
   double t_;
 
@@ -207,10 +203,10 @@ DropletDiffusion<Funct>::DropletDiffusion(
     double c_out,
     Funct c0_out,
     double Rco,
-    unsigned int number_of_dorplets, 
     double Lx,
     double Ly,
     double dt,
+    unsigned int number_of_dorplets, 
     unsigned int Nx,
     unsigned int Ny,
     unsigned int seed)
@@ -220,10 +216,10 @@ DropletDiffusion<Funct>::DropletDiffusion(
     l_gamma_(l_gamma),
     c0_out_(c0_out),
     Rco_(Rco),
-    number_of_droplets_(number_of_dorplets),
     Lx_(Lx),
     Ly_(Ly), 
     dt_(dt),
+    number_of_droplets_(number_of_dorplets),
     t_(0),
     droplets_(number_of_droplets_),
     concentration_(c_out, D, Lx, Ly, Nx, Ny),

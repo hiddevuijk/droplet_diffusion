@@ -65,7 +65,7 @@ int main()
   // simulation object
   DropletDiffusion<FunctorC0Out>
         droplet_diffusion(D, Dd1, l_gamma, c0_in, c_out,
-            f_c0_out, Rco, number_of_droplets, Lx, Ly, dt,
+            f_c0_out, Rco, Lx, Ly, dt, number_of_droplets, 
             Nx, Ny, seed);
 
   cout << "Concentration integration time step: "
