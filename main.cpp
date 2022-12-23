@@ -23,6 +23,19 @@ struct FunctorC0Out {
   double a, b, c, d, x0;
 };
 
+
+class RadiusDistribution {
+ public:
+  RadiusDistribution(double Rmin, double Rmax)
+    : Rmin(Rmin), Rmax(Rmax) {}
+
+  double operator() (double random_uniform_number) {
+    return Rmin + (Rmax - Rmin) * random_uniform_number;
+  }
+
+  double Rmin, Rmax;
+};
+
 int main()
 {
 
@@ -65,8 +78,12 @@ int main()
   // simulation object
   DropletDiffusion<FunctorC0Out>
         droplet_diffusion(D, Dd1, l_gamma, c0_in, c_out,
-            f_c0_out, Rco, Lx, Ly, dt, number_of_droplets, 
-            Nx, Ny, seed);
+            f_c0_out, Rco, Lx, Ly, dt, Nx, Ny, seed);
+
+  RadiusDistribution radius_distribution(Rco, 1.0);
+
+  droplet_diffusion.InitializeDroplets(number_of_droplets, radius_distribution);
+
 
   cout << "Concentration integration time step: "
        << droplet_diffusion.GetMaxTimeStepConcentration() << endl;

@@ -77,6 +77,8 @@ struct Droplet {
   double dR;
 };
 
+
+
 /*
  The DropletDiffusion class is the main simulation class.
 
@@ -113,7 +115,6 @@ class DropletDiffusion {
                   // time step min(dt, dt_von_neumann / 10),
                   // where dt_von_neumann is the time step
                   // corresponding to marginal stability
-    unsigned int number_of_droplets,
     unsigned int Nx, // number of grid points in the x dimension
                      // for the concentration
     unsigned int Ny,    // same for y
@@ -137,6 +138,13 @@ class DropletDiffusion {
   // returns max time step used to integrate the concentration.
   double GetMaxTimeStepConcentration() const
     { return concentration_.GetMaxTimeStep(); }
+
+  // Initialize N droplets randomly and uniformly in space
+  // RadiusDistribution is a functor
+  // such that radius_distribution(double random_uniform_number)
+  // samples the distribution of the initial radii of the droplets
+  template<class RadiusDistribution> 
+  void InitializeDroplets(unsigned int N, RadiusDistribution radius_distribution);
 
  private:
 
@@ -166,15 +174,10 @@ class DropletDiffusion {
   /// Mutable members variables
   ////////////////////
  
-  // number of initial droplets
-  unsigned int number_of_droplets_;
 
   // current time 
   double t_;
 
-  // list with all the droplets in the system
-  // length can change as droplets dissolve
-  std::vector<Droplet> droplets_;   
 
   // concentration field (see concentration.h)
   Concentration concentration_;
@@ -185,6 +188,13 @@ class DropletDiffusion {
   boost::mt19937 random_number_generator_;
   boost::variate_generator<boost::mt19937&,
          boost::normal_distribution<double> > random_normal_distribution_;
+
+  // list with all the droplets in the system
+  // length can change as droplets dissolve
+  std::vector<Droplet> droplets_;   
+
+  // number of droplets
+  unsigned int number_of_droplets_;
 
    ///////////////
    /// private member functions
@@ -206,7 +216,6 @@ DropletDiffusion<Funct>::DropletDiffusion(
     double Lx,
     double Ly,
     double dt,
-    unsigned int number_of_dorplets, 
     unsigned int Nx,
     unsigned int Ny,
     unsigned int seed)
@@ -219,31 +228,12 @@ DropletDiffusion<Funct>::DropletDiffusion(
     Lx_(Lx),
     Ly_(Ly), 
     dt_(dt),
-    number_of_droplets_(number_of_dorplets),
     t_(0),
-    droplets_(number_of_droplets_),
     concentration_(c_out, D, Lx, Ly, Nx, Ny),
     normal_distribution_(0.0,1.0),
     random_number_generator_(seed),
     random_normal_distribution_(random_number_generator_, normal_distribution_)
-{
-  
-  boost::uniform_real<double> udist(0,1);
-  boost::variate_generator<boost::mt19937&,
-      boost::uniform_real<double> >
-        rudist(random_number_generator_, udist);
-
-  // initialize droplets with random positions in the box
-  for (unsigned int i = 0; i < number_of_droplets_; ++i) {
-    droplets_[i].x = rudist() * Lx_;
-    droplets_[i].y = rudist() * Ly_;
-
-    // initialize droplet radius
-    // CHANGE TO DISTRIBUTION
-    droplets_[i].SetR(Rco_ + (1.0 - Rco_) * rudist());
-    droplets_[i].SetRco(Rco_);
-  }
-}
+{}
 
 
 template<class Funct>
@@ -374,5 +364,28 @@ unsigned int DropletDiffusion<Funct>::GetNumberOfDroplets() const
 }
 
 
+template<class Funct> template<class RadiusDistribution> 
+void DropletDiffusion<Funct>::InitializeDroplets(
+              unsigned int N, RadiusDistribution radius_distribution )
+{
+  number_of_droplets_ = N;
+  droplets_ = std::vector<Droplet>(number_of_droplets_);
+  
+  boost::uniform_real<double> udist(0,1);
+  boost::variate_generator<boost::mt19937&,
+      boost::uniform_real<double> >
+        rudist(random_number_generator_, udist);
+
+  // initialize droplets with random positions in the box
+  for (unsigned int i = 0; i < N; ++i) {
+    droplets_[i].x = rudist() * Lx_;
+    droplets_[i].y = rudist() * Ly_;
+
+    // initialize droplet radius
+    droplets_[i].SetR( radius_distribution( rudist() ) );
+    droplets_[i].SetRco(Rco_);
+  }
+
+}
 
 #endif
