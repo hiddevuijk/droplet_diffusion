@@ -148,9 +148,9 @@ class DropletDiffusion {
 
  private:
 
-  ////////////////////
+  ////////////////////////////////////////
   /// Imutable members variables
-  ////////////////////
+  ////////////////////////////////////////
 
   // diffusion constant of the of the concentration field
   double D_;
@@ -170,19 +170,16 @@ class DropletDiffusion {
   // integration time step
   double dt_;
 
-  ////////////////////
+  ////////////////////////////////////////
   /// Mutable members variables
-  ////////////////////
+  ////////////////////////////////////////
  
-
   // current time 
   double t_;
-
 
   // concentration field (see concentration.h)
   Concentration concentration_;
    
-
   // random number generator for diffusion of droplets
   const boost::normal_distribution<double> normal_distribution_;
   boost::mt19937 random_number_generator_;
@@ -196,9 +193,9 @@ class DropletDiffusion {
   // number of droplets
   unsigned int number_of_droplets_;
 
-   ///////////////
-   /// private member functions
-   ///////////////
+  ////////////////////////////////////////
+  /// private member functions
+  ////////////////////////////////////////
 
    // make a time step of dt
    void MakeTimeStep( double dt);
@@ -239,7 +236,6 @@ DropletDiffusion<Funct>::DropletDiffusion(
 template<class Funct>
 void DropletDiffusion<Funct>::MakeTimeStep(double dt)
 {
-
   // evolve droplet positions and radii
   double alpha, epsilon;
   for (unsigned int i = 0; i < number_of_droplets_; ++i) {
@@ -275,7 +271,6 @@ void DropletDiffusion<Funct>::MakeTimeStep(double dt)
     dR *= alpha / R;
     droplets_[i].ChangeRadius(dt * dR);
   }
-
 
   // change concentration due to change in droplet radii
   // if radius < Rco, remove droplet (set radius = -1)
